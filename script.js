@@ -3,57 +3,57 @@ var entrada = prompt("Ingrese la cantidad de pivotes: ", 2);
 var numPivotes = parseInt(entrada);
 console.log(numPivotes)
 
-// Function to generate the array of blocks
+// Función para generar la matriz de bloques
 function generatearray() {
   for (var i = 0; i < numPivotes; i++) {
-    // Return a value from 1 to 100 (both inclusive)
+    // Devolver un valor de 1 a 100 (ambos inclusive)
     var value = Math.ceil(Math.random() * 100);
   
-    // Creating element div
+    // Creando elemento div
     var array_ele = document.createElement("div");
   
-    // Adding class 'block' to div
+    // Agregar clase 'bloque' a div
     array_ele.classList.add("block");
   
-    // Adding style to div
+    // Agregar estilo a div
     array_ele.style.height = `${value * 3}px`;
     array_ele.style.transform = `translate(${i * 30}px)`;
   
-    // Creating label element for displaying
-    // size of particular block
+   // Creando elemento de etiqueta para mostrar
+    // tamaño de un bloque en particular
     var array_ele_label = 
     document.createElement("label");
     array_ele_label.classList.add("block_id");
     array_ele_label.innerText = value;
   
-    // Appending created elements to index.html
+    // Agregar elementos creados a index.html
     array_ele.appendChild(array_ele_label);
     container.appendChild(array_ele);
   }
 }
   
-// Function to generate indexes
+// Función para generar índices
 var count_container = 
 document.getElementById("count");
 function generate_idx() {
   for (var i = 0; i < numPivotes; i++) {
-    // Creating element div
+    // Creando elemento div
     var array_ele2 = document.createElement("div");
   
-    // Adding class 'block2' to div
+    // Agregar clase 'block2' a div
     array_ele2.classList.add("block2");
   
-    // Adding style to div
+    // Agregar estilo a div
     array_ele2.style.height = `${numPivotes}px`;
     array_ele2.style.transform = `translate(${i * 30}px)`;
   
-    // Adding indexes
+    // Agregar indixes
     var array_ele_label2 = 
     document.createElement("label");
     array_ele_label2.classList.add("block_id3");
     array_ele_label2.innerText = i;
   
-    // Appending created elements to index.html
+    // Agregar elementos creados a index.html
     array_ele2.appendChild(array_ele_label2);
     count_container.appendChild(array_ele2);
   }
@@ -62,7 +62,7 @@ function generate_idx() {
 async function lometo_partition(l, r, delay = 700) {
   var blocks = document.querySelectorAll(".block");
   
-  // Storing the value of pivot element
+  // almacenar el valor del elemento pivote
   var pivot = 
   Number(blocks[r].childNodes[0].innerHTML);
   var i = l - 1;
@@ -71,10 +71,10 @@ async function lometo_partition(l, r, delay = 700) {
   getElementsByClassName("range")[0].innerText = `[${l},${r}]`;
   
   for (var j = l; j <= r - 1; j++) {
-    // To change background-color of the
-    // blocks to be compared
+    // Para cambiar el color de fondo del
+    // bloques a comparar
     blocks[j].style.backgroundColor = "yellow";
-    // To wait for 700 milliseconds
+    // Esperar 700 milisegundos
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve();
@@ -83,7 +83,7 @@ async function lometo_partition(l, r, delay = 700) {
     var value = 
     Number(blocks[j].childNodes[0].innerHTML);
   
-    // To compare value of two blocks
+    // Para comparar el valor de dos bloques
     if (value < pivot) {
       i++;
       var temp1 = blocks[i].style.height;
@@ -95,7 +95,7 @@ async function lometo_partition(l, r, delay = 700) {
       blocks[j].childNodes[0].innerText = temp2;
       blocks[i].style.backgroundColor = "orange";
       if (i != j) blocks[j].style.backgroundColor = "pink";
-      //To wait for 700 milliseconds
+      //Esperar 700 milisegundos
       await new Promise((resolve) =>
         setTimeout(() => {
           resolve();
@@ -103,7 +103,7 @@ async function lometo_partition(l, r, delay = 700) {
       );
     } else blocks[j].style.backgroundColor = "pink";
   }
-  // Swapping the ith with pivot element
+  // Intercambiando el i-ésimo con el elemento pivote
   i++;
   var temp1 = blocks[i].style.height;
   var temp2 = blocks[i].childNodes[0].innerText;
@@ -115,7 +115,7 @@ async function lometo_partition(l, r, delay = 700) {
   blocks[r].style.backgroundColor = "pink";
   blocks[i].style.backgroundColor = "green";
   
-  // To wait for 2100 milliseconds
+  // Esperar 2100 milisegundos
   await new Promise((resolve) =>
     setTimeout(() => {
       resolve();
@@ -127,23 +127,23 @@ async function lometo_partition(l, r, delay = 700) {
   return i;
 }
   
-// Asynchronous QuickSort function
+// Función QuickSort asincrónica
 async function QuickSort(l, r, delay = 100) {
   if (l < r) {
-    // Storing the index of pivot element after partition
+    // Almacenar el índice del elemento pivote después de la partición
     var pivot_idx = await lometo_partition(l, r);
-    // Recursively calling quicksort for left partition
+    // Llamando recursivamente a la ordenación rápida para la partición izquierda
     await QuickSort(l, pivot_idx - 1);
-    // Recursively calling quicksort for right partition
+    // Llamando recursivamente a la ordenación rápida para la partición derecha
     await QuickSort(pivot_idx + 1, r);
   }
 }
   
-// Calling generatearray function
+// Llamando a la función generar matriz
 generatearray();
   
-// Calling generate_idx function
+// Llamando a la función generar_idx
 generate_idx();
   
-// Calling QuickSort function
+// Llamar a la función QuickSort
 QuickSort(0, numPivotes - 1);
